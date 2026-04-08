@@ -6,6 +6,7 @@ import { auth } from '../../Firebase/firebase.init';
 const AuthProvider = ({children}) => {
 
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     //Create User Info
     const createUser =(email,password) =>{
@@ -27,6 +28,7 @@ const AuthProvider = ({children}) => {
         //set the observer
         const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
             setUser(currentUser)
+            setLoading(false)
         })
 
         //clear the observer on unmount
@@ -38,9 +40,11 @@ const AuthProvider = ({children}) => {
 
     const authInfo = {
         user,
+        loading,
         createUser,
         signInUser,
         signOutUser,
+        
     }
 
 
