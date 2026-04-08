@@ -22,7 +22,10 @@ const Register = () => {
     console.log(name, email, password);
 
     createUser(email, password)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        e.target.reset()
+      })
       .catch((error) => console.log(error));
 
     // createUserWithEmailAndPassword(auth,email,password).then(result=>console.log(result)).catch(error =>console.log(error))

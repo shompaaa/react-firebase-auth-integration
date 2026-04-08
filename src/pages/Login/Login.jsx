@@ -11,7 +11,10 @@ const Login = () => {
     const password = e.target.password.value;
 
     signInUser(email, password)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        e.target.reset()
+      })
       .catch((error) => console.log(error));
   };
 
