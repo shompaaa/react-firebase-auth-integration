@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../../Firebase/firebase.init";
+import { AuthContext } from "../../context/AuthContext/AuthContext";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { createUser } = useContext(AuthContext);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -16,6 +20,12 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(name, email, password);
+
+    createUser(email, password)
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+
+    // createUserWithEmailAndPassword(auth,email,password).then(result=>console.log(result)).catch(error =>console.log(error))
   };
 
   return (
@@ -28,6 +38,7 @@ const Register = () => {
           <div className="card-body">
             <form onSubmit={handleRegister}>
               <fieldset className="fieldset">
+                {/* Name Field */}
                 <label className="label">Name</label>
                 <input
                   type="text"
@@ -35,6 +46,7 @@ const Register = () => {
                   className="input"
                   placeholder="Name"
                 />
+                {/* Email Field */}
                 <label className="label">Email</label>
                 <input
                   type="email"
@@ -42,6 +54,7 @@ const Register = () => {
                   className="input"
                   placeholder="Email"
                 />
+                {/* Password Field */}
                 <label className="label">Password</label>
                 <div className="relative">
                   <input

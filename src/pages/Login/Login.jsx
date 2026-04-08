@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../../context/AuthContext/AuthContext";
 
 const Login = () => {
+  const { signInUser } = useContext(AuthContext);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    signInUser(email, password)
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="bg-base-200 min-h-screen max-w-full">
       <div className="hero-content flex-col mx-auto">
@@ -10,8 +23,9 @@ const Login = () => {
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
-            <form>
+            <form onSubmit={handleLogin}>
               <fieldset className="fieldset">
+                {/* Email Field */}
                 <label className="label">Email</label>
                 <input
                   type="email"
@@ -19,6 +33,7 @@ const Login = () => {
                   className="input"
                   placeholder="Email"
                 />
+                {/* Password Field */}
                 <label className="label">Password</label>
                 <input
                   type="password"
