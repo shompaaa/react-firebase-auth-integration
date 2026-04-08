@@ -1,11 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
   const { signInUser, googleSignIn } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+    const togglePassword = (e) => {
+    e.preventDefault()
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -21,13 +28,16 @@ const Login = () => {
       .catch((error) => console.log(error));
   };
 
-  const handleGoogleLogin = ()=>{
-        googleSignIn().then(result =>{
-            console.log(result.user);
-            navigate(location?.state || "/")
-        }).catch(error =>console.log(error))
 
-  }
+
+  const handleGoogleLogin = () => {
+    googleSignIn()
+      .then((result) => {
+        console.log(result.user);
+        navigate(location?.state || "/");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="bg-base-200 min-h-screen max-w-full">
@@ -49,17 +59,29 @@ const Login = () => {
                 />
                 {/* Password Field */}
                 <label className="label">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="input"
-                  placeholder="Password"
-                />
+                <div className="relative">
+                  <input
+                    type= {showPassword ? "text" : "password"}
+                    name="password"
+                    className="input"
+                    placeholder="Password"
+                  />
+                  <button onClick={togglePassword}>
+                    {showPassword ? (
+                      <IoEye size={20} className="absolute top-3 right-6" />
+                    ) : (
+                      <IoEyeOff size={20} className="absolute top-3 right-6" />
+                    )}
+                  </button>
+                </div>
                 <button className="btn btn-neutral mt-4">Login</button>
               </fieldset>
             </form>
             {/* Google Login */}
-            <button onClick={handleGoogleLogin} className="btn bg-white text-black border-[#e5e5e5]">
+            <button
+              onClick={handleGoogleLogin}
+              className="btn bg-white text-black border-[#e5e5e5]"
+            >
               <svg
                 aria-label="Google logo"
                 width="16"
