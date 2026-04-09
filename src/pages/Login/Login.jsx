@@ -4,13 +4,13 @@ import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
-  const { signInUser, googleSignIn } = useContext(AuthContext);
+  const { signInUser, googleSignIn, facebookSignIn } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-    const togglePassword = (e) => {
-    e.preventDefault()
+  const togglePassword = (e) => {
+    e.preventDefault();
     setShowPassword(!showPassword);
   };
 
@@ -28,8 +28,6 @@ const Login = () => {
       .catch((error) => console.log(error));
   };
 
-
-
   const handleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
@@ -37,6 +35,12 @@ const Login = () => {
         navigate(location?.state || "/");
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleFacebookLogin = () => {
+    facebookSignIn().then((result) => {
+      console.log(result.user);
+    });
   };
 
   return (
@@ -61,7 +65,7 @@ const Login = () => {
                 <label className="label">Password</label>
                 <div className="relative">
                   <input
-                    type= {showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     className="input"
                     placeholder="Password"
@@ -110,6 +114,23 @@ const Login = () => {
                 </g>
               </svg>
               Login with Google
+            </button>
+
+            {/* Facebook */}
+            <button onClick={handleFacebookLogin} className="btn bg-[#1A77F2] text-white border-[#005fd8]">
+              <svg
+                aria-label="Facebook logo"
+                width="16"
+                height="16"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="white"
+                  d="M8 12h5V8c0-6 4-7 11-6v5c-4 0-5 0-5 3v2h5l-1 6h-4v12h-6V18H8z"
+                ></path>
+              </svg>
+              Login with Facebook
             </button>
             <div>
               <p>

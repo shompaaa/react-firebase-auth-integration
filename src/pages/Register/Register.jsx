@@ -2,14 +2,14 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../../Firebase/firebase.init";
+
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [nameError, setNameError] = useState("");
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -28,7 +28,7 @@ const Register = () => {
 
     //Password Validation
     if (!name) {
-      setError("Name is required");
+      setNameError("Name is required");
       return;
     } else if (password.length < 6) {
       setError("Password must be at least 6 characters");
@@ -44,16 +44,17 @@ const Register = () => {
       return;
     }
 
+      //Reset Error
+        setNameError('')
+        setError("");
+
     createUser(email, password)
       .then((result) => {
         console.log(result);
         e.target.reset();
-        //Reset Error
-        setError("");
+      
       })
       .catch((error) => console.log(error));
-
-    // createUserWithEmailAndPassword(auth,email,password).then(result=>console.log(result)).catch(error =>console.log(error))
   };
 
   return (
@@ -74,6 +75,9 @@ const Register = () => {
                   className="input"
                   placeholder="Name"
                 />
+                {
+                  nameError && <small className="text-red-500">{nameError}</small>
+                }
                 {/* Email Field */}
                 <label className="label">Email</label>
                 <input
